@@ -39,4 +39,12 @@ public class SectionMaster {
 		this.createdOn = localDate;
 	}
 
+	@Override
+	public String toString() {
+		return "SectionMaster{" +
+				"sectionId=" + sectionId +
+				", name='" + name + '\'' +
+				", createdOn=" + createdOn +
+				'}';
+	}
 }

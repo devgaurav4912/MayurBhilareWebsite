@@ -33,7 +33,6 @@ public class SectionMasterServiceImpl implements SectionMasterService {
 		} else {
 			return null;
 		}
-
 	}
 
 	@Override
@@ -48,16 +47,17 @@ public class SectionMasterServiceImpl implements SectionMasterService {
 	}
 
 	@Override
-	public ResponseEntity<Boolean> deleteSection(long sectionId) {
+	public ResponseEntity<String> deleteSection(long sectionId) {
 		Optional<SectionMaster> master = sectionMasterRepositiry.findById(sectionId);
 	if(master.isPresent()){
 		SectionMaster master2 = master.get();
 		if (master2 != null) {
 			sectionMasterRepositiry.deleteById(sectionId);
-			return new ResponseEntity<>(true, HttpStatus.OK);
+			return new ResponseEntity<>("section deleted successfully", HttpStatus.OK);
 		}
+		return new ResponseEntity<>("section is not deleted!!", HttpStatus.BAD_REQUEST);
 		}
-	 return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+	 return new ResponseEntity<>("section is not found!!", HttpStatus.NOT_FOUND);
 	
 
 	}

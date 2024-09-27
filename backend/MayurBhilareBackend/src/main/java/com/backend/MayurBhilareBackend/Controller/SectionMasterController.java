@@ -39,7 +39,6 @@ public class SectionMasterController {
 		}else {
 			return new ResponseEntity<>("This sections already exists!!!", HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 
 	@GetMapping
