@@ -1,11 +1,9 @@
 package com.backend.MayurBhilareBackend.Entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class SectionMaster {
@@ -14,6 +12,10 @@ public class SectionMaster {
 	Long sectionId;
 	String name;
 	LocalDate createdOn;
+
+
+	@OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ContentMaster> contentMasterList;
 
 	public long getSectionId() {
 		return sectionId;
@@ -37,6 +39,18 @@ public class SectionMaster {
 
 	public void setCreatedOn(LocalDate localDate) {
 		this.createdOn = localDate;
+	}
+
+	public void setSectionId(Long sectionId) {
+		this.sectionId = sectionId;
+	}
+
+	public List<ContentMaster> getContentMasterList() {
+		return contentMasterList;
+	}
+
+	public void setContentMasterList(List<ContentMaster> contentMasterList) {
+		this.contentMasterList = contentMasterList;
 	}
 
 	@Override
