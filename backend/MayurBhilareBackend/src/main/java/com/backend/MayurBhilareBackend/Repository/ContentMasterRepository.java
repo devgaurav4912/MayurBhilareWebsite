@@ -23,4 +23,5 @@ public interface ContentMasterRepository extends JpaRepository<ContentMaster, Lo
 
 
 
+
 }

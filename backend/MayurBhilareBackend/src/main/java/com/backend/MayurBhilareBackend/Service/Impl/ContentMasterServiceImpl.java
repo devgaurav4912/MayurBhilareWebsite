@@ -60,19 +60,69 @@ public class ContentMasterServiceImpl implements ContentMasterService {
 	}
 
 
+
+//    public  ResponseEntity<String> addContent (ContentMaster contentMaster , MultipartFile file) throws IOException {
+//
+//        SectionMaster sectionMaster =sectionMasterRepositiry.findByName(contentMaster.getSection().getName()).orElse(null);
+//
+//
+//        if (file != null && !file.isEmpty()) {
+//			// Get the current date and time
+//			LocalDateTime now = LocalDateTime.now();
+//
+//			// Define the format you want for the file name (e.g., yyyyMMdd_HHmmss)
+//			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+//
+//			// Generate a unique file name with the current date and time
+//			String currentTime = now.format(formatter);
+//
+//			// Get the file extension
+//			String originalFileName = file.getOriginalFilename();
+//			String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+//
+//			// Construct the new file name with date-time as name and retain the file
+//			// extension
+//			String newFileName = currentTime + fileExtension;
+//
+//			// Save the file with the new name
+//			Path fileNameAndPath = Paths.get(uploadDirectory, newFileName);
+//			Files.write(fileNameAndPath, file.getBytes());
+//
+//			// Set the new file name in customerMaster object
+//			contentMaster.setContentImage(newFileName);
+//			}
+//
+//    	if (contentMaster.getContentDate() == null) {
+//            contentMaster.setContentDate(LocalDate.now()); // Set current date if not provided
+//        }
+//        contentMaster.setSection(sectionMaster);
+//        contentMasterRepository.save(contentMaster);
+//
+//        return new ResponseEntity<>("Content save successfully", HttpStatus.OK);
+//    }
+
 	@Override
 	public ResponseEntity<?> addContent(ContentMaster contentmaster, MultipartFile file) throws IOException {
 		// TODO Auto-generated method stub
 
+        System.out.println("ADD CONTENT--1");
+
+        System.out.println("SECTION ID -->"+contentmaster.getSection().getSectionId());
+
         SectionMaster section = sectionMasterRepositiry.findById(contentmaster.getSection().getSectionId())
                 .orElseThrow(() -> new RuntimeException("Section not found"));
 
+        System.out.println("ADD CONTENT--2");
+
 		 Set<String> allContenetSet= contentMasterRepository.findAllContentBasedOnSection(contentmaster.getSection().getName());
+
+        System.out.println("ADD CONTENT--3");
 		if(allContenetSet.contains(contentmaster.getContentTitle()))
 		{
 			return new ResponseEntity<>("This content already exists!!!", HttpStatus.BAD_REQUEST);
 		}
 
+        System.out.println("ADD CONTENT--4");
 		// Save file if provided
     	if (file != null && !file.isEmpty()) {
 			// Get the current date and time
@@ -135,10 +185,15 @@ public class ContentMasterServiceImpl implements ContentMasterService {
         existingContentMaster.setContentPrice(contentMaster.getContentPrice());
         existingContentMaster.setContentSequence(contentMaster.getContentSequence());
         existingContentMaster.setContentDescription(contentMaster.getContentDescription());
-        existingContentMaster.setContentDate(contentMaster.getContentDate());
+        //existingContentMaster.setContentDate(contentMaster.getContentDate());
+        if (contentMaster.getContentDate() == null) {
+            existingContentMaster.setContentDate(LocalDate.now());
+        }
         existingContentMaster.setContentLocation(contentMaster.getContentLocation());
         existingContentMaster.setContentLink(contentMaster.getContentLink());
+        existingContentMaster.setContentImgAltTag(contentMaster.getContentImgAltTag());
         existingContentMaster.setSection(contentMaster.getSection());
+
 
         if (file != null && !file.isEmpty()) {
             // Get the current date and time
@@ -164,6 +219,8 @@ public class ContentMasterServiceImpl implements ContentMasterService {
             // Set the new file name in the existingContentMaster object
             existingContentMaster.setContentImage(newFileName);
         }
+
+
 
         // Save the updated content using the service layer
         ContentMaster savedContentMaster = contentMasterRepository.save(existingContentMaster);

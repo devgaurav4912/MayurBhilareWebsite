@@ -3,6 +3,8 @@ package com.backend.MayurBhilareBackend.Entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,20 +12,24 @@ public class ContentMaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long contentId;
-    private String contentTitle;
+    private String contentTitle;//
     private Double contentPrice;  // or BigDecimal for more precise currency handling
     private String contentSequence;
-    private String contentDescription;
+    private String contentDescription; //
     private String contentImgAltTag;
-    private LocalDate contentDate;
-    private String contentLocation;
-    private String contentLink;
+    private LocalDate contentDate; //
+    private String contentLocation; //
+    private String contentLink; //
     private String contentImage;
+
+    //location
 
     @ManyToOne
     @JoinColumn(name = "section_id", nullable = false)
+    @JsonBackReference
     private SectionMaster section;
 
+// setter and are below
 
     public ContentMaster(Long contentId, String contentTitle, Double contentPrice, String contentSequence,
                          String contentDescription, String contentImgAltTag, LocalDate contentDate, String contentLocation,

@@ -3,6 +3,7 @@ package com.backend.MayurBhilareBackend.Entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +16,11 @@ public class SectionMaster {
 
 
 	@OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	private List<ContentMaster> contentMasterList;
+
+	// setter and getters are present below
+
 
 	public long getSectionId() {
 		return sectionId;
